@@ -1,0 +1,26 @@
+{
+  "name": "breathe",
+  "version": "1.0.0",
+  "description": "Recreating apples breathe watch app",
+  "main": "src/index.html",
+  "repository": "https://github.com/LeonardFollner/breathe",
+  "author": "Leonard Follner",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "^2.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "devDependencies": {
+    "mini-css-extract-plugin": "^0.5.0"
+  }
+}
