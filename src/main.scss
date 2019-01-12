@@ -1,3 +1,83 @@
+$number-of-leaves: 6;
+$leave-diameter: 30vmin;
+
+$breath-length: 5s;
+$animation-timing-function: cubic-bezier(.5, 0, .5, 1);
+$hold-breath: 4%;
+
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+
+  width: 100%;
+  height: 100vh;
+
   background-color: black;
+
+  cursor: none;
+}
+
+.flower, .leave {
+  width: $leave-diameter;
+  height: $leave-diameter;
+}
+
+@mixin animation($from, $to) {
+  0% {
+    transform: $from;
+  }
+  #{$hold-breath} {
+    transform: $from;
+  }
+
+  #{100% - $hold-breath} {
+    transform: $to;
+  }
+  100% {
+    transform: $to;
+  }
+}
+
+@keyframes twirl-and-pulse {
+  @include animation(
+                  rotate(90deg) scale(1),
+                  rotate(0) scale(0.3)
+  );
+}
+
+.flower {
+  animation: twirl-and-pulse $breath-length $animation-timing-function infinite alternate-reverse;
+}
+
+@mixin generate-animation($leave-number) {
+  @keyframes unfold-#{$leave-number} {
+    $leave-angle: (360deg / $number-of-leaves) * ($leave-number - 1) + (360deg / $number-of-leaves / 2);
+
+    @include animation(
+                    rotate($leave-angle) translate($leave-diameter / 2),
+                    rotate($leave-angle) translate(0)
+    );
+  }
+
+  animation: unfold-#{$leave-number} $breath-length $animation-timing-function infinite alternate-reverse;
+}
+
+.leave {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+
+  @for $i from 1 to $number-of-leaves + 1 {
+    &:nth-child(#{$i}) {
+      @if ($i <= $number-of-leaves / 2) {
+        background-color: #61bea2;
+      } @else {
+        background-color: #529ca0;
+      }
+      @include generate-animation($i);
+    }
+  }
 }
